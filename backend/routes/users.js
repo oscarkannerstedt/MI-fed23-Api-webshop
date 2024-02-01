@@ -43,6 +43,23 @@ router.post('/add', function(req, res, next) {
 });
 
 // LOGGA IN USER
-
+router.post('/login', function(req, res, next) {
+  try {
+    let checkEmail = req.body.email;
+    let checkPassword = req.body.password;
+    req.app.locals.db.collection('users').findOne({"email": checkEmail, "password": checkPassword})
+    .then(result => {
+      if (result) {
+        res.status(200).send({message: "Logged in"});
+      } else {
+        res.status(401).send({message: "Wrong email or password"});
+      }
+    })
+    
+    
+  } catch (error) {
+    console.error("Error while log in", error);
+  }
+});
 
 module.exports = router;
