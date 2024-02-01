@@ -12,7 +12,7 @@ router.get('/', function(req, res, next) {
   .then(result => {
     res.json(result)
   })
-  .catch(error => console.error(error, "Ett fel uppstod när alla användare skulle hämtas"))
+  .catch(error => console.error("Error while getting users", error))
 });
 
 // HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET
@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
 router.post('/add', function(req, res, next) {
   const newUser = req.body;
   req.app.locals.db.collection('users').insertOne(newUser)
-  res.send("Användare tillagd");
+  res.send("new user add");
 });
 
 
