@@ -13,7 +13,7 @@ POST http://localhost:3000/api/users/
 Content-Type: application/json
 
 {
-  "id": "// EN USER ID"
+  "id": "65bb98d1afdfb27f4a4dd850"
 }
 
 ###
@@ -23,8 +23,8 @@ POST http://localhost:3000/api/users/add
 Content-Type: application/json
 
 {
-  "name": "Test Testsson",
-  "email": "test@mail.com",
+  "name": "Sven Karlsson",
+  "email": "sven@mail.com",
   "password": "test"
 }
 

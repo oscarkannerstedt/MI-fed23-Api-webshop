@@ -10,7 +10,9 @@ const MongoClient = require('mongodb').MongoClient;
 
 var app = express();
 
-MongoClient.connect('mongodb://127.0.0.1:27017')
+MongoClient.connect('mongodb://127.0.0.1:27017', {
+  useUnifiedTopology: true
+})
   .then(client => {
     console.log("Ansluten till databasen");
     const db = client.db("Oscar-Kannerstedt");
