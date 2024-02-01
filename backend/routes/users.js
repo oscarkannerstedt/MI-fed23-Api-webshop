@@ -4,10 +4,6 @@ var cors = require('cors');
 
 router.use(cors());
 
-let users = [
-  {id: 1, name: "Oscar", email: "oscar@mail.com", password: "test"},
-  {id: 2, name: "Janne", email: "janne@mail.com", password: "test"}
-]
 
 // HÄMTA ALLA USERS // SKICKA INTE MED LÖSENORD // BARA ID, NAMN + EMAIL PÅ ALLA USERS
 router.get('/', function(req, res, next) {
@@ -17,6 +13,16 @@ router.get('/', function(req, res, next) {
     res.json(result)
   })
   .catch(error => console.error(error, "Ett fel uppstod när alla användare skulle hämtas"))
+});
+
+// HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET
+
+
+// SKAPA USER
+router.post('/add', function(req, res, next) {
+  const newUser = req.body;
+  req.app.locals.db.collection('users').insertOne(newUser)
+  res.send("Användare tillagd");
 });
 
 
