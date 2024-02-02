@@ -21,7 +21,7 @@ router.get('/', async function(req, res) {
 // HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET
 router.post('/', async function(req, res) {
   try {
-    const foundUser = await UserModel.findOne({_id: req.body.id});
+    const foundUser = await UserModel.findOne({ _id: req.body.id });
 
     res.status(200).json(foundUser);
   } catch (error) {
@@ -48,20 +48,19 @@ router.post('/add', async function(req, res) {
 });
 
 // LOGGA IN USER
-router.post('/login', function(req, res, next) {
+router.post('/login', async function(req, res, next) {
   try {
-    let checkEmail = req.body.email;
-    let checkPassword = req.body.password;
-    req.app.locals.db.collection('users').findOne({"email": checkEmail, "password": checkPassword})
-    .then(result => {
-      if (result) {
-        res.status(200).send({message: "Logged in"});
-      } else {
-        res.status(401).send({message: "Wrong email or password"});
-      }
-    })
-    
-    
+    const user = await UserModel.findOne({ email: req.body.email });
+
+    if (!user) {
+      res.status(401).send({ message: "No user found" })
+    }
+
+    if (await bcrypt.compare(req.body.password, user.password)) {
+      res.status(200).json(user.id);
+    } else {
+      res.status(401).send({ message: "Wrong password" })
+    }
   } catch (error) {
     console.error("Error while log in", error);
   }
