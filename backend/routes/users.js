@@ -3,11 +3,12 @@ var router = express.Router();
 var cors = require('cors');
 router.use(cors());
 
-const UserModel = require('../models/user-models')
+const UserModel = require('../models/user-models');
+const bcrypt = require('bcrypt');
 
 
 // HÄMTA ALLA USERS // SKICKA INTE MED LÖSENORD // BARA ID, NAMN + EMAIL PÅ ALLA USERS
-router.get('/', async function(req, res, next) {
+router.get('/', async function(req, res) {
   try {
     const users = await UserModel.find({}, 'name email');
 
@@ -29,10 +30,17 @@ router.post('/', async function(req, res) {
 });
 
 // SKAPA USER
-router.post('/add', function(req, res, next) {
+router.post('/add', async function(req, res) {
   try {
-    const newUser = req.body;
-    req.app.locals.db.collection('users').insertOne(newUser)
+    const salt = await bcrypt.genSalt();
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
+    const newUser = await UserModel.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: hashedPassword,
+    });
+
     res.status(200).json(newUser);
   } catch (error) {
     console.error('Error while create new user', error)
