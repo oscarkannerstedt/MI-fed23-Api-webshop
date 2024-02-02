@@ -29,6 +29,20 @@ router.post('/add', async function(req, res) {
 });
 
 // HÄMTA ALLA ORDERS
+router.get('/all', function(req, res) {
+    try {
+        req.app.locals.db.collection('orders').find().toArray()
+        .then(result => {
+            res.status(200).json(result);
+        })
+    } catch (error) {
+        console.error("error while getting orders", error);
+    }
+});
+
+
+
+
 
 
 module.exports = router;

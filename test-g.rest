@@ -62,9 +62,9 @@ POST http://localhost:3000/api/products/add
 Content-Type: application/json
 
 {
-  "name": "Produkt 11",
-  "description": "Beskrivning av produkt 11",
-  "price": 1100, 
+  "name": "Produkt 12",
+  "description": "Beskrivning av produkt 12",
+  "price": 1200, 
   "lager": 10
 }
 

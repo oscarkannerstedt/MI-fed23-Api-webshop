@@ -11,7 +11,7 @@ router.get('/', function(req,res,next) {
             res.status(200).json(result);
         })
     } catch (error) {
-        console.error("Error while getting products");
+        console.error("Error while getting products", error);
     }
 });
 
@@ -34,7 +34,7 @@ router.post('/add', function(req,res,next) {
         req.app.locals.db.collection('products').insertOne(newProduct)
         res.status(200).json(newProduct);
     } catch (error) {
-        console.error("Error while creating new product");
+        console.error("Error while creating new product", error);
     }
 });
 
