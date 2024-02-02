@@ -1,15 +1,21 @@
 var express = require('express');
 var router = express.Router();
-const { ObjectId } = require('mongodb');
+const ProductModel = require('../models/product-models');
+
+require('dotenv').config();
+const cors = require('cors');
+router.use(cors());
 
 
 // HÄMTA ALLA PRODUKTER
-router.get('/', function(req,res,next) {
+router.get('/', async function(req, res, next) {
     try {
-        req.app.locals.db.collection('products').find().toArray()
-        .then(result => {
-            res.status(200).json(result);
-        })
+        const products = await ProductModel.find(
+            {},
+            'name description price lager category'
+        ).populate('category');
+
+        res.status(200).json(products);
     } catch (error) {
         console.error("Error while getting products", error);
     }
@@ -18,10 +24,7 @@ router.get('/', function(req,res,next) {
 // HÄMTA SPECIFIK PRODUKT
 router.get('/:id', function(req, res, next) {
     try {
-        req.app.locals.db.collection('products').findOne({'_id': new ObjectId(req.params.id)})
-        .then(result => {
-            res.status(200).json(result)
-        })
+        
     } catch (error) {
         console.error("Error while getting product with id", error);
     }

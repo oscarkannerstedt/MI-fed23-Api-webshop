@@ -47,7 +47,7 @@ router.post('/add', async function(req, res) {
   }
 });
 
-// LOGGA IN USER
+// LOGGA IN USER // VID FEL LÖSENORD SÅ SKALL SVARA MED 401
 router.post('/login', async function(req, res, next) {
   try {
     const user = await UserModel.findOne({ email: req.body.email });
