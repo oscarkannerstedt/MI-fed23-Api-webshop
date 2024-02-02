@@ -79,14 +79,14 @@ POST http://localhost:3000/api/orders/add
 Content-Type: application/json
 
 {
-  "user": "65bb95e05051497935dc6443",
+  "user": "65bba550acf55563ef8a5388",
       "products": [
     {
-      "productId": "65bc9131f7fe1efcca17be42",
+      "productId": "65bcc94c123e4a9166926230",
       "quantity": 1
     },
     {
-      "productId": "65bc913bf7fe1efcca17be43",
+      "productId": "65bc94739de6e2177ec121cc",
       "quantity": 2
     }
   ]
