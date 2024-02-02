@@ -6,6 +6,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
+const ordersRouter = require('./routes/orders');
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -22,9 +23,6 @@ MongoClient.connect('mongodb://127.0.0.1:27017', {
   .catch(err => console.error("Ingen kontakt med databasen", err));
 
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -34,5 +32,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
+app.use('/api/orders', ordersRouter);
 
 module.exports = app;

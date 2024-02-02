@@ -24,7 +24,7 @@ Content-Type: application/json
 
 {
   "name": "Sven Karlsson",
-  "email": "oscar@mail.com",
+  "email": "sven@mail.com",
   "password": "test3"
 }
 
@@ -53,7 +53,7 @@ GET http://localhost:3000/api/products
 ###
 
 // HÄMTA SPECIFIK PRODUKT
-GET http://localhost:3000/api/products/ // ID PÅ PRODUKT
+GET http://localhost:3000/api/products/65bc911bf7fe1efcca17be40
 
 ###
 
@@ -62,9 +62,9 @@ POST http://localhost:3000/api/products/add
 Content-Type: application/json
 
 {
-  "name": "Produkt 1",
-  "description": "Beskrivning av produkt 1",
-  "price": 100, 
+  "name": "Produkt 11",
+  "description": "Beskrivning av produkt 11",
+  "price": 1100, 
   "lager": 10
 }
 
@@ -79,14 +79,14 @@ POST http://localhost:3000/api/orders/add
 Content-Type: application/json
 
 {
-  "user": "{{getUsers.response.body.$[0].id}}",
+  "user": "65bb95e05051497935dc6443",
       "products": [
     {
-      "productId": "// ID PÅ EN PRODUKT",
+      "productId": "65bc9131f7fe1efcca17be42",
       "quantity": 1
     },
     {
-      "productId": "// ID PÅ EN PRODUKT",
+      "productId": "65bc913bf7fe1efcca17be43",
       "quantity": 2
     }
   ]
