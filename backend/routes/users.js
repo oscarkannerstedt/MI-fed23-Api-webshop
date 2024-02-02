@@ -1,35 +1,32 @@
 var express = require('express');
 var router = express.Router();
 var cors = require('cors');
-const { ObjectId } = require('mongodb');
-
 router.use(cors());
+
+const UserModel = require('../models/user-models')
 
 
 // HÄMTA ALLA USERS // SKICKA INTE MED LÖSENORD // BARA ID, NAMN + EMAIL PÅ ALLA USERS
-router.get('/', function(req, res, next) {
+router.get('/', async function(req, res, next) {
   try {
-    req.app.locals.db.collection('users')
-    .find({}, {projection: {password: 0}}).toArray()
-    .then(result => {
-      res.status(200).json(result)
-    })
+    const users = await UserModel.find({}, 'name email');
+
+    res.status(200).json(users);
   } catch (error) {
     console.error("Error while getting users", error);
   }
 });
 
 // HÄMTA SPECIFIK USER // SKICKA HELA OBJEKTET
-router.post('/', function(req, res, next) {
+router.post('/', async function(req, res) {
   try {
-    req.app.locals.db.collection('users').findOne({"_id": new ObjectId(req.body.id)})
-    .then(result => {
-      res.status(200).json(result)
-    })
+    const foundUser = await UserModel.findOne({_id: req.body.id});
+
+    res.status(200).json(foundUser);
   } catch (error) {
     console.error("Error while getting user with id", error);
   }
-})
+});
 
 // SKAPA USER
 router.post('/add', function(req, res, next) {
