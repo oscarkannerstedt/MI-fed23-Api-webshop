@@ -22,20 +22,27 @@ router.get('/', async function(req, res, next) {
 });
 
 // HÄMTA SPECIFIK PRODUKT
-router.get('/:id', function(req, res, next) {
+router.get('/:id', async function(req, res, next) {
     try {
-        
+        const product = await ProductModel.findById(
+            {_id: req.params.id},
+            '_id name description lager price'
+        );
+
+        if (product) {
+            res.status(200).json(product);
+        } else {
+            res.status(400).json('No product found');
+        }
     } catch (error) {
         console.error("Error while getting product with id", error);
     }
-})
+});
 
 // SKAPA PRODUKT
-router.post('/add', function(req,res,next) {
+router.post('/add', async function(req,res,next) {
     try {
-        const newProduct = req.body;
-        req.app.locals.db.collection('products').insertOne(newProduct)
-        res.status(200).json(newProduct);
+        
     } catch (error) {
         console.error("Error while creating new product", error);
     }
