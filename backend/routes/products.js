@@ -39,10 +39,22 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-// SKAPA PRODUKT
+// SKAPA PRODUKT // UTAN TOKEN SÅ SKALL ANROPET MISSLYCKAS = 401
 router.post('/add', async function(req,res,next) {
     try {
-        
+        if (req.body.token === process.env.ACCESS_KEY) {
+            const newProduct = await ProductModel.create(req.body);
+
+            res.status(200).json({
+                _id: newProduct._id,
+                name: newProduct.name,
+                category: newProduct.category,
+                lager: newProduct.lager,
+                price: newProduct.price,
+            });
+        } else {
+            res.status(401).json('Invalid token')
+        }
     } catch (error) {
         console.error("Error while creating new product", error);
     }
