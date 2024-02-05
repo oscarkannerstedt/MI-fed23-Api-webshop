@@ -60,10 +60,10 @@ POST http://localhost:3000/api/products/add
 Content-Type: application/json
 
 {
-  "name": "Produkt 13",
-  "description": "Beskrivning av produkt 13",
-  "price": 1300,
-  "lager": 13,
+  "name": "Produkt 14",
+  "description": "Beskrivning av produkt 14",
+  "price": 1400,
+  "lager": 14,
   "category": "65c0b13e2bf80836f7537568",
   "token": "1234key1234"
 }
@@ -84,7 +84,7 @@ POST http://localhost:3000/api/categories/add
 Content-Type: application/json
 
 {
-  "name": "Kategori 2",
+  "name": "Kategori 4",
   "token": "1234key1234"
 }
 
@@ -100,12 +100,12 @@ GET http://localhost:3000/api/categories
 //
 
 // HÄMTA ALLA ORDERS, KEY MÅSTE ANGES FÖR ATT FÅ TILLGÅNG TILL ORDERS
-GET http://localhost:3000/api/orders/all/ // API TOKEN
+GET http://localhost:3000/api/orders/all/1234key1234
 
 ###
 
 // HÄMTA ALLA ORDER, FEL KEY // SKALL MISSLYCKAS
-GET http://localhost:3000/api/orders/all/ // TEST MED FEL TOKEN
+GET http://localhost:3000/api/orders/all/1256key1543
 
 ###
 
@@ -114,14 +114,14 @@ POST http://localhost:3000/api/orders/add
 Content-Type: application/json
 
 {
-  "user": "// USER ID FÖR DEN SOM SKA SKAPA ORDERN",
+  "user": "65bb818fcda02099570c2465",
       "products": [
     {
-      "productId": "// ETT PRODUKT ID",
+      "productId": "65c0b1e22bf80836f753756f",
       "quantity": 1
     },
     {
-      "productId": "// ETT PRODUKT ID",
+      "productId": "65c0b9ce998c5d4a26a8a3d1",
       "quantity": 2
     }
   ]
@@ -134,7 +134,7 @@ POST http://localhost:3000/api/orders/user
 Content-Type: application/json
 
 {
-    "user": "// USER ID FÖR DEN SOM SKA VISA ORDERS"
+    "user": "65bb818fcda02099570c2465"
 }
 ###
 
@@ -143,7 +143,7 @@ POST http://localhost:3000/api/orders/user
 Content-Type: application/json
 
 {
-    "user": "// USER ID FÖR DEN SOM SKA VISA ORDERS",
+    "user": "65bb818fcda02099570c2465",
     "token": "1234key1234"
 }
 ###

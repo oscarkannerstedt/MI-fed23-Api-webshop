@@ -1,47 +1,64 @@
 var express = require('express');
-const { ObjectId } = require('mongodb');
 var router = express.Router();
+const OrderModel = require('../models/order-models');
+const ProductModel = require('../models/product-models');
+require('dotenv').config();
+const cors = require('cors');
+router.use(cors());
 
 
-// SKAPA ORDER FÖR EN SPECIFIK USER // PRODUCTS ÄR EN ARRAY MOTSVARANDE INNEHÅLLET I KUNDVAGN
-router.post('/add', async function(req, res) {
+// HÄMTA ALLA ORDERS, KEY MÅSTE ANGES FÖR ATT FÅ TILLGÅNG TILL ORDERS
+router.get('/all/:token', async function(req, res) {
     try {
-        const {user, products} = req.body;
+        let token = req.params.token;
 
-        const userExists = await req.app.locals.db.collection('users').findOne({'_id': new ObjectId(req.body.user)});
-        if (!userExists) {
-            return res.status(404).json({error: 'User not found'})
+        if (token === process.env.ACCESS_KEY) {
+            const orders = await OrderModel.find().populate();
+            res.status(200).json(orders);
+        } else {
+            res.status(401).json({ message: 'Not Authorized'});
         }
-
-        const productIds = products.map(product => product);
-        await req.app.locals.db.collection('products').findOne({_id: {$in: productIds}});
-        
-        const newOrder = {
-            user,
-            products
-        };
-
-        await req.app.locals.db.collection("orders").insertOne(newOrder);
-        res.status(200).json(newOrder);
-    } catch (error) {
-        console.error('Error while creating order', error);
-    }
-});
-
-// HÄMTA ALLA ORDERS
-router.get('/all', function(req, res) {
-    try {
-        req.app.locals.db.collection('orders').find().toArray()
-        .then(result => {
-            res.status(200).json(result);
-        })
     } catch (error) {
         console.error("error while getting orders", error);
     }
 });
 
+// SKAPA ORDER FÖR EN SPECIFIK USER
+router.post('/add', async function(req, res) {
+    try {
+        for (let i = 0; i < req.body.products.length; i++) {
+            const orderAmount = req.body.products[i].quantity;
+            const updatedLager = await ProductModel.findByIdAndUpdate(
+                req.body.products[i].productId,
+                {
+                    $inc: { lager: -orderAmount },
+                }
+            );
+        }
 
+        const newOrder = await OrderModel.create(req.body);
+        res.status(201).json(newOrder);
+    } catch (error) {
+        console.error('Error while creating order', error);
+    }
+});
 
+// HÄMTA ORDERS FÖR EN USER
+router.post('/user', async function (req, res) {
+    try {
+        if (req.body.token === process.env.ACCESS_KEY) {
+            const userOrders = await OrderModel.find({
+                user: req.body.user,
+            }).populate('user products');
+
+            res.status(200).json(userOrders);
+        } else {
+            res.status(401).json({ message: 'Not Authorized'});
+        }
+    } catch (error) {
+        console.error(error);
+    }
+})
 
 
 
