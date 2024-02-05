@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const ProductModel = require('../models/product-models');
-
 require('dotenv').config();
 const cors = require('cors');
 router.use(cors());
