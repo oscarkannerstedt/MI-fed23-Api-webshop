@@ -60,6 +60,27 @@ router.post('/add', async function(req,res,next) {
     }
 });
 
+// HÄMTA ALLA PRODUKTER FÖR EN SPECIFIK KATEGORI
+router.get('/category/:id', async function (req, res, next) {
+    try {
+        const foundProducts = await ProductModel.find(
+            {
+                category: req.params.id,
+            },
+            'name category description lager price'  
+        ).populate('category');
+
+        if (foundProducts) {
+            res.status(200).json(foundProducts);
+        } else {
+            res.status(404).json({ message: 'No products found in that category' });
+        }
+
+    } catch (error) {
+        console.error('Error while getting products', error);
+    }
+})
+
 
 
 

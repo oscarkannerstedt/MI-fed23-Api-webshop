@@ -11,6 +11,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const productsRouter = require('./routes/products');
 const ordersRouter = require('./routes/orders');
+const categoriesRouter = require('./routes/categories');
 
 const MongoClient = require('mongodb').MongoClient;
 
@@ -38,6 +39,7 @@ app.use('/', indexRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/orders', ordersRouter);
+app.use('/api/categories', categoriesRouter);
 
 async function init() {
   try {
