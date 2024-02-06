@@ -2,17 +2,54 @@ const formContainer = document.getElementById('form');
 const createUserButton = document.getElementById('create-user-button');
 const appNav = document.getElementById('app-nav');
 const appContent = document.getElementById('app-content');
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-
-
+const userOrder = {
+    user: localStorage.getItem('user'),
+    token: '1234key1234',
+  };
 
 function init() {
     if (localStorage.getItem('user')) {
         console.log('is logged in');
+        renderAppNav();
     } else {
         console.log('is not logged in');
         renderLogInForm();
     }
+}
+
+function renderAppNav() {
+    const logOutButton = document.createElement('button');
+    const productsButton = document.createElement('button');
+    const ordersButton = document.createElement('button');
+    const shoppingCartButton = document.createElement('button');
+
+    logOutButton.classList.add('nav');
+    productsButton.classList.add('nav');
+    shoppingCartButton.classList.add('nav');
+    ordersButton.classList.add('nav');
+
+    ordersButton.innerHTML = 'dina ordrar';
+    productsButton.innerHTML = 'våra produkter';
+    shoppingCartButton.innerHTML = 'din varukorg';
+    logOutButton.innerHTML = 'logga ut';
+
+    appNav.append(productsButton, shoppingCartButton, ordersButton, logOutButton);
+
+    productsButton.addEventListener('click', () => {
+        fetchProducts();
+    });
+
+    shoppingCartButton.addEventListener('click', () => {
+        // user orders
+    });
+
+    logOutButton.addEventListener('click', () => {
+        localStorage.removeItem('user');
+        appContent.innerHTML = "";
+        init();
+    });
 }
 
 createUserButton.addEventListener('click', () => {
@@ -63,7 +100,8 @@ function renderLogInForm() {
     passwordInput.type = 'password';
     emailInput.type = 'email';
 
-    logInUserButton.textContent = 'logga in';
+    appNav.innerHTML = '<h2>Logga in</h2>';
+    logInUserButton.innerHTML = 'Skicka';
 
     appNav.append(emailInput, passwordInput, logInUserButton);
 
@@ -103,5 +141,47 @@ async function logInUser(user) {
         }
     });
 }
+
+async function fetchProducts() {
+    await fetch('http://localhost:3000/api/products')
+    .then((res) => res.json().then((data) => {
+        renderProducts(data);
+    })
+    );
+}
+
+function renderProducts(data) {
+    appContent.innerHTML = '';
+
+    appContent.innerHTML = '<h2>produkter</h2>';
+    for (let i = 0; i < data.length; i++) {
+        const productContainer = document.createElement('div');
+        productContainer.classList.add('product-card');
+        const addToCartButton = document.createElement('button');
+        addToCartButton.classList.add('add-to-cart-button');
+
+        addToCartButton.innerHTML = 'lägg till i varukogen';
+        appContent.appendChild(productContainer);
+
+        productContainer.innerHTML += `<h3>${data[i].name}</h3>${data[i].description}<br/>
+        <img src="./img/robot.webp" loading="lazy" width="100" height="100" alt="robot"><br/>
+        pris: ${data[i].price} kr <br/> 
+        lagerstatus: ${data[i].lager} st <br/>`;
+
+        productContainer.appendChild(addToCartButton);
+
+        addToCartButton.addEventListener('click', () => {
+            const product = data[i]._id;
+
+            addProductToCart(product);
+        });
+    }
+}
+
+async function addProductToCart() {
+
+}
+
+
 
 init();
