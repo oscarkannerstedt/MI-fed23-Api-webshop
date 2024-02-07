@@ -51,7 +51,7 @@ GET http://localhost:3000/api/products
 ###
 
 // HÄMTA SPECIFIK PRODUKT
-GET http://localhost:3000/api/products/65c0b1e22bf80836f753756f
+GET http://localhost:3000/api/products/65c360736a04558726f693b5
 
 ###
 
@@ -60,18 +60,18 @@ POST http://localhost:3000/api/products/add
 Content-Type: application/json
 
 {
-  "name": "Produkt 14",
-  "description": "Beskrivning av produkt 14",
-  "price": 1400,
-  "lager": 14,
-  "category": "65c0b13e2bf80836f7537568",
+  "name": "Robot 12",
+  "description": "Beskrivning av robot 12",
+  "price": 1500,
+  "lager": 15,
+  "category": "65c0b30d2bf80836f753757d",
   "token": "1234key1234"
 }
 
 ###
 
 // HÄMTA ALLA PRODUKTER FÖR EN SPECIFIK KATEGORI
-GET http://localhost:3000/api/products/category/65c0b13e2bf80836f7537568
+GET http://localhost:3000/api/products/category/65c0b30d2bf80836f753757d
 ###
 
 //
@@ -84,7 +84,7 @@ POST http://localhost:3000/api/categories/add
 Content-Type: application/json
 
 {
-  "name": "Kategori 4",
+  "name": "Kategori 5",
   "token": "1234key1234"
 }
 

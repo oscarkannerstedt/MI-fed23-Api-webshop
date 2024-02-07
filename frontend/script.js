@@ -42,8 +42,12 @@ function renderAppNav() {
     });
 
     shoppingCartButton.addEventListener('click', () => {
-        // user orders
+        renderShoppingCart();
     });
+
+    ordersButton.addEventListener('click', () => {
+        fetchUserOrders(userOrder);
+    })
 
     logOutButton.addEventListener('click', () => {
         localStorage.removeItem('user');
@@ -151,9 +155,10 @@ async function fetchProducts() {
 }
 
 function renderProducts(data) {
+    console.log(data);
     appContent.innerHTML = '';
 
-    appContent.innerHTML = '<h2>produkter</h2>';
+    appContent.innerHTML = '<h2>Produkter</h2>';
     for (let i = 0; i < data.length; i++) {
         const productContainer = document.createElement('div');
         productContainer.classList.add('product-card');
@@ -165,6 +170,7 @@ function renderProducts(data) {
 
         productContainer.innerHTML += `<h3>${data[i].name}</h3>${data[i].description}<br/>
         <img src="./img/robot.webp" loading="lazy" width="100" height="100" alt="robot"><br/>
+        kategori: ${data[i].category.name}<br/>
         pris: ${data[i].price} kr <br/> 
         lagerstatus: ${data[i].lager} st <br/>`;
 
@@ -197,8 +203,100 @@ async function addProductToCart(product) {
     });
 }
 
+function renderShoppingCart() {
+    const submitOrderButton = document.createElement('button');
+    const removeItemsButton = document.createElement('button');
+
+    appContent.innerHTML = '<h2>Varukorg</h2>';
+
+    for (let i = 0; i < cart.length; i++) {
+        const cartItem = document.createElement('div');
+        appContent.append(cartItem);
+
+        cartItem.innerHTML = `<div class="cart">
+        <img src="./img/robot.webp" loading="lazy" width="80" height="80" alt="robot"><br/>
+        Artikel: ${cart[i].name} <br/>
+        Antal: ${cart[i].quantity} st <br/>
+        Produkt: ${cart[i]._id}</div>`;
+    }
+
+    appContent.append(submitOrderButton, removeItemsButton);
+    submitOrderButton.innerHTML = 'Skicka order';
+    removeItemsButton.innerHTML = 'Rensa order';
 
 
+    removeItemsButton.addEventListener('click', () => {
+        localStorage.removeItem('cart');
+        console.log('shoppingcart is cleared');
+        location.reload();
+    });
+
+    submitOrderButton.addEventListener('click', () => {
+        let products = [];
+
+        const itemsInCart = JSON.parse(localStorage.getItem('cart'));
+
+        for (let i = 0; i < itemsInCart.length; i++) {
+            products.push({
+                productId: itemsInCart[i]._id,
+                quantity: itemsInCart[i].quantity,
+            });
+        }
+
+        let newOrder = {
+            user: localStorage.getItem('user'),
+            products,
+        };
+
+        sendOrder(newOrder);
+        appContent.innerHTML = '';
+        location.reload();
+    });
+}
+
+async function sendOrder(data) {
+    await fetch('http://localhost:3000/api/orders/add', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify(data),
+    }).then((res) => res.json()
+        .then((data) => {
+        console.log(data);
+        })
+    );
+
+    fetchUserOrders(userOrder);
+}
+
+async function fetchUserOrders(userOrder) {
+    await fetch('http://localhost:3000/api/orders/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(userOrder),
+    })
+    .then((res) => res.json())
+    .then((orders) => {
+        renderOrderPage(orders);
+    });
+}
+
+function renderOrderPage(orders) {
+    console.log(orders);
+
+    appContent.innerHTML = '<h2>Dina ordrar</h2>';
+
+    for (let i = 0; i < orders.length; i++) {
+        let productsList = '';
+
+        for (let j = 0; j < orders[i].products.length; j++) {
+            productsList += `ProduktId: ${orders[i].products[j].productId}<br/>
+            Antal: ${orders[i].products[j].quantity}`;
+        }
+        appContent.innerHTML += `<div class="order"> Order id: ${orders[i]._id} <br/>
+        Kund id: ${orders[i].user._id}<br/>
+        Produkter: ${productsList}</div>`;
+    }
+}
 
 
 init();
