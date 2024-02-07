@@ -78,9 +78,7 @@ router.get('/category/:id', async function (req, res, next) {
     } catch (error) {
         console.error('Error while getting products', error);
     }
-})
-
-
+});
 
 
 

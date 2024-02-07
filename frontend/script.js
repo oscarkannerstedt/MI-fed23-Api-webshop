@@ -31,7 +31,7 @@ function renderAppNav() {
     ordersButton.classList.add('nav');
 
     ordersButton.innerHTML = 'dina ordrar';
-    productsButton.innerHTML = 'våra produkter';
+    productsButton.innerHTML = 'produkter';
     shoppingCartButton.innerHTML = 'din varukorg';
     logOutButton.innerHTML = 'logga ut';
 
@@ -178,9 +178,26 @@ function renderProducts(data) {
     }
 }
 
-async function addProductToCart() {
+async function addProductToCart(product) {
+    console.log(product);
 
+    await fetch('http://localhost:3000/api/products/' + product)
+    .then((res) => res.json())
+    .then((product) => {
+        const itemInCart = cart.find(
+            (cartProduct) => cartProduct._id === product._id
+        );
+    if (itemInCart) {
+        itemInCart.quantity++;
+    } else {
+        const updatedCart = [...cart, { ...product, quantity: 1 }];
+        cart = updatedCart;
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    });
 }
+
+
 
 
 
