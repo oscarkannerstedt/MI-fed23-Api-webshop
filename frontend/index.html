@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/frontend/style/style.css"/>
     <script src="script.js" defer type="module"></script>
     <title>Api Webbshop</title>
 </head>
 <body>
     <header>
-        <div id="title">
+        <div id="title" class="header">
             <h1>Api Webbshop</h1>
         </div>
-        <div id="form">
+        <div id="form" class="form">
             <h2>Skapa användare</h2>
             <input type="text" id="input-name" placeholder="namn" />
             <input type="email" id="input-email" placeholder="email" />
@@ -19,9 +20,11 @@
             <button id="create-user-button">Bekräfta</button>
         </div>
     </header>
-    <div id="app">
-        <div id="app-nav"></div>
-        <div id="app-content"></div>
+    <div id="app" class="app">
+        <div id="app-nav" class="app-nav"></div>
+        <div id="app-content" class="app-content"></div>
     </div>
+
+    <footer><p>&copy; 2024 Api Webbshop</p></footer>
 </body>
 </html>

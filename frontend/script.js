@@ -159,6 +159,10 @@ function renderProducts(data) {
     appContent.innerHTML = '';
 
     appContent.innerHTML = '<h2>Produkter</h2>';
+
+    const productGrid = document.createElement('div');
+    productGrid.classList.add('product-grid');
+
     for (let i = 0; i < data.length; i++) {
         const productContainer = document.createElement('div');
         productContainer.classList.add('product-card');
@@ -168,11 +172,11 @@ function renderProducts(data) {
         addToCartButton.innerHTML = 'lägg till i varukogen';
         appContent.appendChild(productContainer);
 
-        productContainer.innerHTML += `<h3>${data[i].name}</h3>${data[i].description}<br/>
-        <img src="./img/robot.webp" loading="lazy" width="100" height="100" alt="robot"><br/>
-        kategori: ${data[i].category.name}<br/>
-        pris: ${data[i].price} kr <br/> 
-        lagerstatus: ${data[i].lager} st <br/>`;
+        productContainer.innerHTML += `<h3>${data[i].name}</h3><p>${data[i].description}</p>
+        <img src="./img/robot.webp" loading="lazy" width="100" height="100" alt="robot">
+        <p>kategori: ${data[i].category.name}</p>
+        <p>pris: ${data[i].price} kr</p>
+        <p>lagerstatus: ${data[i].lager} st</p>`;
 
         productContainer.appendChild(addToCartButton);
 
@@ -181,7 +185,9 @@ function renderProducts(data) {
 
             addProductToCart(product);
         });
+        productGrid.appendChild(productContainer);
     }
+    appContent.appendChild(productGrid);
 }
 
 async function addProductToCart(product) {
@@ -298,5 +304,5 @@ function renderOrderPage(orders) {
     }
 }
 
-
+fetchProducts();
 init();
