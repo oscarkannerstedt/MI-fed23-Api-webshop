@@ -1,3 +1,20 @@
+# Api Webbshop
+
+## Screenshots
+### Start screen, desktop
+![Start screen](/frontend/img/startsidan.png "Start screen")
+
+### Products
+![Product page](/frontend/img/produktsidan.png "Product page")
+
+### Shopping cart
+![Shopping cart](/frontend/img/produktsidan.png "Shopping cart")
+
+### User orders
+![User orders](/frontend/img/ordrar.png "Orders")
+
+
+
 # Du har fått i uppdrag att utveckla API’et till en webbshop.
 
 En lösningsarkitekt har redan dokumenterat vilka endpoints som skall finnas för API’et samt skrivit ett test flöde med REST-Client som ni kan börja utveckal med. Dvs vilka endpoints och vad de skall heta samt vad de förväntas returnera är redan förutbestämt. 
