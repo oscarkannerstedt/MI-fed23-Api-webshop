@@ -26,10 +26,10 @@ function renderAppNav() {
     const ordersButton = document.createElement('button');
     const shoppingCartButton = document.createElement('button');
 
-    logOutButton.classList.add('nav');
-    productsButton.classList.add('nav');
-    shoppingCartButton.classList.add('nav');
-    ordersButton.classList.add('nav');
+    logOutButton.classList.add('log-out-button');
+    productsButton.classList.add('product-button');
+    shoppingCartButton.classList.add('shopping-cart-button');
+    ordersButton.classList.add('orders-button');
 
     ordersButton.innerHTML = 'dina ordrar';
     productsButton.innerHTML = 'produkter';
@@ -246,22 +246,33 @@ async function addProductToCart(product) {
 
 function renderShoppingCart() {
     const submitOrderButton = document.createElement('button');
+    submitOrderButton.classList.add('submit-button');
     const removeItemsButton = document.createElement('button');
+    removeItemsButton.classList.add('delete-button');
 
     appContent.innerHTML = '<h2>Varukorg</h2>';
 
+    const shoppingCartGrid = document.createElement('div');
+    shoppingCartGrid.classList.add('shopping-cart-grid');
+
     for (let i = 0; i < cart.length; i++) {
         const cartItem = document.createElement('div');
-        appContent.append(cartItem);
+        cartItem.classList.add('cart');
+        shoppingCartGrid.appendChild(cartItem);
 
-        cartItem.innerHTML = `<div class="cart">
-        <img src="./img/robot.webp" loading="lazy" width="80" height="80" alt="robot"><br/>
-        Artikel: ${cart[i].name} <br/>
-        Antal: ${cart[i].quantity} st <br/>
-        Produkt: ${cart[i]._id}</div>`;
+        cartItem.innerHTML = `<img src="./img/robot.webp" loading="lazy" width="100" height="100" alt="robot">
+        <p>Artikel: ${cart[i].name}</p>
+        <p>Antal: ${cart[i].quantity} st</p>
+        <p>Produkt: ${cart[i]._id}</p>`;
     }
 
-    appContent.append(submitOrderButton, removeItemsButton);
+    appContent.appendChild(shoppingCartGrid);
+
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('buttons-container');
+    buttonsContainer.append(submitOrderButton, removeItemsButton);
+
+    appContent.append(buttonsContainer);
     submitOrderButton.innerHTML = 'Skicka order';
     removeItemsButton.innerHTML = 'Rensa order';
 
@@ -330,12 +341,12 @@ function renderOrderPage(orders) {
         let productsList = '';
 
         for (let j = 0; j < orders[i].products.length; j++) {
-            productsList += `ProduktId: ${orders[i].products[j].productId}<br/>
-            Antal: ${orders[i].products[j].quantity}`;
+            productsList += `<p>ProduktId: ${orders[i].products[j].productId}</p>
+            <p>Antal: ${orders[i].products[j].quantity}</p>`;
         }
-        appContent.innerHTML += `<div class="order"> Order id: ${orders[i]._id} <br/>
-        Kund id: ${orders[i].user._id}<br/>
-        Produkter: ${productsList}</div>`;
+        appContent.innerHTML += `<div class="order"> <p>Order id: ${orders[i]._id}</p>
+        <p>Kund id: ${orders[i].user._id}</p>
+        <p>Produkter: ${productsList}</p></div>`;
     }
 }
 
