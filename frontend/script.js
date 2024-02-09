@@ -2,6 +2,7 @@ const formContainer = document.getElementById('form');
 const createUserButton = document.getElementById('create-user-button');
 const appNav = document.getElementById('app-nav');
 const appContent = document.getElementById('app-content');
+const categoryDropdown = document.getElementById('category-dropdown');
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
 const userOrder = {
@@ -146,12 +147,46 @@ async function logInUser(user) {
     });
 }
 
-async function fetchProducts() {
-    await fetch('http://localhost:3000/api/products')
-    .then((res) => res.json().then((data) => {
-        renderProducts(data);
-    })
-    );
+// async function fetchProducts() {
+//     await fetch('http://localhost:3000/api/products')
+//     .then((res) => res.json().then((data) => {
+//         renderProducts(data);
+//     })
+//     );
+// }
+
+categoryDropdown.addEventListener('change', () => {
+    const selectedCategory = categoryDropdown.value;
+    fetchProducts(selectedCategory);
+});
+
+async function fetchProducts(selectedCategory) {
+    let url = 'http://localhost:3000/api/products';
+
+    if (selectedCategory) {
+        url = `http://localhost:3000/api/products/category/${selectedCategory}`;
+    }
+
+    const categories = await fetch('http://localhost:3000/api/categories')
+    .then((res) => res.json());
+
+    const products = await fetch(url)
+    .then((res) => res.json());
+
+    renderProducts(products);
+    renderCategoriesDropdown(categories);
+}
+
+function renderCategoriesDropdown(categories) {
+    const categoryDropdown = document.getElementById('category-dropdown');
+    categoryDropdown.innerHTML = '<option value="">Alla kategorier</option>';
+
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category._id;
+        option.textContent = category.name;
+        categoryDropdown.appendChild(option);
+    });
 }
 
 function renderProducts(data) {
