@@ -13,9 +13,11 @@ const userOrder = {
 function init() {
     if (localStorage.getItem('user')) {
         console.log('is logged in');
+        fetchProducts();
         renderAppNav();
     } else {
         console.log('is not logged in');
+        fetchProducts();
         renderLogInForm();
     }
 }
@@ -98,6 +100,7 @@ function renderLogInForm() {
     const emailInput = document.createElement('input');
     const passwordInput = document.createElement('input');
     const logInUserButton = document.createElement('button');
+    logInUserButton.classList.add('log-in-button')
 
     emailInput.placeholder = 'e-post';
     passwordInput.placeholder = 'lösenord';
@@ -105,7 +108,7 @@ function renderLogInForm() {
     passwordInput.type = 'password';
     emailInput.type = 'email';
 
-    appNav.innerHTML = '<h2>Logga in</h2>';
+    appNav.innerHTML = '<div class="title-log-in"><h2>Logga in</h2></div>';
     logInUserButton.innerHTML = 'Skicka';
 
     appNav.append(emailInput, passwordInput, logInUserButton);
@@ -146,14 +149,6 @@ async function logInUser(user) {
         }
     });
 }
-
-// async function fetchProducts() {
-//     await fetch('http://localhost:3000/api/products')
-//     .then((res) => res.json().then((data) => {
-//         renderProducts(data);
-//     })
-//     );
-// }
 
 categoryDropdown.addEventListener('change', () => {
     const selectedCategory = categoryDropdown.value;
@@ -350,5 +345,5 @@ function renderOrderPage(orders) {
     }
 }
 
-fetchProducts();
+// fetchProducts();
 init();

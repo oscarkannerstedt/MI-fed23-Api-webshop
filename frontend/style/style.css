@@ -58,6 +58,10 @@ input[type="password"] {
     font-size: 16px;
   }
 
+  .create-user-button:hover {
+    background-color: #45a049;
+  }
+
   .app {
     display: grid; 
     grid-template-columns: 1fr; 
@@ -68,6 +72,24 @@ input[type="password"] {
   .app-nav {
     margin: 0 auto;
     margin-top: 1.5rem;
+  }
+
+  .title-log-in {
+    margin-bottom: 5px;
+  }
+
+  .log-in-button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 8px 16px;
+    font-size: 16px;
+  }
+
+  .log-in-button:hover {
+    background-color: #45a049;
   }
 
 .app-nav input,
