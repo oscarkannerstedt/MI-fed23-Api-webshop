@@ -1,5 +1,15 @@
 # Api Webbshop
 
+## Tech stack
+- HTML5
+- CSS
+- Javascript
+- Node.js
+- Express
+- Nodemon
+- Cors
+- MongdoDB
+
 ## Screenshots
 ### Start screen, desktop
 ![Start screen](/frontend/img/startsidan.png "Start screen")
@@ -8,7 +18,7 @@
 ![Product page](/frontend/img/produktsidan.png "Product page")
 
 ### Shopping cart
-![Shopping cart](/frontend/img/produktsidan.png "Shopping cart")
+![Shopping cart](/frontend/img/varukorg.png "Shopping cart")
 
 ### User orders
 ![User orders](/frontend/img/ordrar.png "Orders")
